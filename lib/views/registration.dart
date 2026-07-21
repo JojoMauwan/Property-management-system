@@ -38,7 +38,7 @@ class _RegistrationState extends State<Registration> {
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         title: const Text('Register'),
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: const Color.fromARGB(255, 224, 92, 10),
         foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
@@ -50,7 +50,7 @@ class _RegistrationState extends State<Registration> {
               const Icon(
                 Icons.apartment,
                 size: 80,
-                color: AppColors.primaryColor,
+                color: const Color.fromARGB(255, 224, 92, 10),
               ),
               const SizedBox(height: 20),
               const Text(
@@ -113,7 +113,7 @@ class _RegistrationState extends State<Registration> {
                 height: 48,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor,
+                    backgroundColor: const Color.fromARGB(255, 224, 92, 10),
                     foregroundColor: Colors.white,
                   ),
                   onPressed: registerUser,
