@@ -1,18 +1,129 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({super.key});
+import '../configs/colors.dart';
+import '../configs/routes.dart';
+
+class Registration extends StatefulWidget {
+  const Registration({super.key});
 
   @override
-  State<RegistrationScreen> createState() => _RegistrationScreenState();
+  State<Registration> createState() => _RegistrationState();
 }
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
+class _RegistrationState extends State<Registration> {
+  final formKey = GlobalKey<FormState>();
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void registerUser() {
+    if (formKey.currentState!.validate()) {
+      Get.offAllNamed(AppRoutes.dashboard);
+    }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Registration')),
-      body: Center(child: Text('Registration Screen')),
+      backgroundColor: AppColors.backgroundColor,
+      appBar: AppBar(
+        title: const Text('Register'),
+        backgroundColor: AppColors.primaryColor,
+        foregroundColor: Colors.white,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              const Icon(
+                Icons.apartment,
+                size: 80,
+                color: AppColors.primaryColor,
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Property Management System',
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 25),
+              TextFormField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Full name',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.person),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter your name';
+                  }
+
+                  return null;
+                },
+              ),
+              const SizedBox(height: 15),
+              TextFormField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  labelText: 'Email address',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter your email';
+                  }
+
+                  return null;
+                },
+              ),
+              const SizedBox(height: 15),
+              TextFormField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.lock),
+                ),
+                validator: (value) {
+                  if (value == null || value.length < 4) {
+                    return 'Password should have at least 4 characters';
+                  }
+
+                  return null;
+                },
+              ),
+              const SizedBox(height: 25),
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: registerUser,
+                  child: const Text('Register'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

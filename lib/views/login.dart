@@ -15,7 +15,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Grading Application'),
-        backgroundColor: primaryColor,
+        backgroundColor: AppColors.primaryColor,
         foregroundColor: Colors.white,
         centerTitle: true,
         actions: [
@@ -72,7 +72,7 @@ class _LoginState extends State<Login> {
                 onPressed: () {
                   Get.toNamed('/home');
                 },
-                color: primaryColor,
+                color: AppColors.primaryColor,
                 minWidth: 200,
                 child: Text('Login', style: TextStyle(color: Colors.white)),
               ),
@@ -85,7 +85,7 @@ class _LoginState extends State<Login> {
                   GestureDetector(
                     child: Text(
                       'Not Registered? Sign Up',
-                      style: TextStyle(color: secondaryColor),
+                      style: TextStyle(color: AppColors.primaryColor),
                     ),
                     onTap: () {
                       Get.toNamed('/register');
@@ -97,7 +97,7 @@ class _LoginState extends State<Login> {
                   GestureDetector(
                     child: Text(
                       'Forgot Password? Reset',
-                      style: TextStyle(color: secondaryColor),
+                      style: TextStyle(color: AppColors.primaryColor),
                     ),
                     onTap: () {},
                   ),
