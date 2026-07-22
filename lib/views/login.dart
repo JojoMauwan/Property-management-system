@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/configs/colors.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+TextEditingController usernameController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+var store = GetStorage();
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,6 +17,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
+    usernameController.text = store.read("username") ?? "";
     return Scaffold(
       appBar: AppBar(
         title: Text('Grading Application'),
@@ -70,6 +76,7 @@ class _LoginState extends State<Login> {
 
               MaterialButton(
                 onPressed: () {
+                  store.write("username", usernameController.text);
                   Get.toNamed('/home');
                 },
                 color: AppColors.primaryColor,

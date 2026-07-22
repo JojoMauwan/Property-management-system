@@ -50,7 +50,7 @@ class _RegistrationState extends State<Registration> {
               const Icon(
                 Icons.apartment,
                 size: 80,
-                color: const Color.fromARGB(255, 224, 92, 10),
+                color: Color.fromRGBO(224, 92, 10, 1),
               ),
               const SizedBox(height: 20),
               const Text(
