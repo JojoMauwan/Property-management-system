@@ -52,6 +52,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
 
   void updateProperty() {
     if (formKey.currentState!.validate()) {
+      // ignore: unused_local_variable
       final property = Property(
         id: propertyId,
         name: nameController.text.trim(),
@@ -61,7 +62,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
         status: selectedStatus,
       );
 
-      propertyController.updateProperty(propertyIndex, property);
+      //propertyController.updateProperty(propertyIndex, property);
 
       Get.back();
 

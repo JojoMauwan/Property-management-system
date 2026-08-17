@@ -91,7 +91,7 @@ class PropertyListScreen extends StatelessWidget {
       textConfirm: 'Delete',
       confirmTextColor: Colors.white,
       onConfirm: () {
-        propertyController.deleteProperty(index);
+        //propertyController.deleteProperty(index);
         Get.back();
 
         Get.snackbar(

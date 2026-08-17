@@ -26,7 +26,6 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-
     phoneController.text = store.read('username') ?? '';
   }
 
@@ -38,17 +37,9 @@ class _LoginState extends State<Login> {
   }
 
   String getLoginUrl() {
-    // Flutter Web running on the same Windows computer as XAMPP
     if (kIsWeb) {
       return 'http://localhost/xampp/login.php';
     }
-
-    // Android Emulator
-    //
-    // If you are using a REAL PHONE, replace 10.0.2.2
-    // with your computer's IP address, for example:
-    //
-    // return 'http://192.168.1.10/xampp/login.php';
 
     return 'http://10.0.2.2/xampp/login.php';
   }
@@ -206,143 +197,162 @@ class _LoginState extends State<Login> {
         foregroundColor: Colors.white,
         centerTitle: true,
       ),
+
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 10),
-
-              Image.asset(
-                'assets/logo.png',
-                height: 180,
-                fit: BoxFit.contain,
+        child: Stack(
+          children: [
+            // HOUSE IMAGE BACKGROUND
+            Positioned.fill(
+              child: Image.asset(
+                'assets/houselogo.jpg',
+                fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.apartment, size: 120);
+                  return Container(color: Colors.grey.shade200);
                 },
               ),
+            ),
 
-              const SizedBox(height: 30),
+            // TRANSPARENT WHITE OVERLAY
+            Positioned.fill(
+              child: Container(color: Colors.white.withValues(alpha: 0.78)),
+            ),
 
-              const Text(
-                'Phone Number',
-                style: TextStyle(
-                  color: Colors.deepOrange,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            // LOGIN FORM
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 30),
 
-              const SizedBox(height: 8),
-
-              TextField(
-                controller: phoneController,
-                keyboardType: TextInputType.phone,
-                textInputAction: TextInputAction.next,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.phone),
-                  hintText: '0712345678',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              const Text(
-                'Password',
-                style: TextStyle(
-                  color: Colors.deepOrange,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 8),
-
-              TextField(
-                controller: passwordController,
-                obscureText: !showPassword,
-                textInputAction: TextInputAction.done,
-                onSubmitted: (_) {
-                  if (!isLoading) {
-                    loginUser();
-                  }
-                },
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.lock),
-                  hintText: 'Enter password',
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                    icon: Icon(
-                      showPassword ? Icons.visibility_off : Icons.visibility,
+                  const Text(
+                    'Phone Number',
+                    style: TextStyle(
+                      color: Colors.deepOrange,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
                   ),
-                ),
-              ),
 
-              const SizedBox(height: 25),
+                  const SizedBox(height: 8),
 
-              SizedBox(
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: isLoading ? null : loginUser,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor,
-                    foregroundColor: Colors.white,
+                  TextField(
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.phone),
+                      hintText: '0712345678',
+                      filled: true,
+                      fillColor: Colors.white.withValues(alpha: 0.90),
+                      border: const OutlineInputBorder(),
+                    ),
                   ),
-                  child: isLoading
-                      ? const SizedBox(
-                          height: 22,
-                          width: 22,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const Text(
-                          'LOGIN',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+
+                  const SizedBox(height: 20),
+
+                  const Text(
+                    'Password',
+                    style: TextStyle(
+                      color: Colors.deepOrange,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  TextField(
+                    controller: passwordController,
+                    obscureText: !showPassword,
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) {
+                      if (!isLoading) {
+                        loginUser();
+                      }
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.lock),
+                      hintText: 'Enter password',
+                      filled: true,
+                      fillColor: Colors.white.withValues(alpha: 0.90),
+                      border: const OutlineInputBorder(),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            showPassword = !showPassword;
+                          });
+                        },
+                        icon: Icon(
+                          showPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: isLoading ? null : loginUser,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: isLoading
+                          ? const SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : const Text(
+                              'LOGIN',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            Get.toNamed('/register');
+                          },
+                          child: Text(
+                            'Not Registered? Sign Up',
+                            style: TextStyle(color: AppColors.primaryColor),
                           ),
                         ),
-                ),
-              ),
-
-              const SizedBox(height: 25),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () {
-                        Get.toNamed('/register');
-                      },
-                      child: Text(
-                        'Not Registered? Sign Up',
-                        style: TextStyle(color: AppColors.primaryColor),
                       ),
-                    ),
-                  ),
 
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Forgot Password? Reset',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(color: AppColors.primaryColor),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            'Forgot Password? Reset',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(color: AppColors.primaryColor),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

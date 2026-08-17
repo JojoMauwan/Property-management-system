@@ -3,45 +3,34 @@ import 'package:get/get.dart';
 import '../models/property.dart';
 
 class PropertyController extends GetxController {
-  var properties = <Property>[].obs;
+  final RxList<Property> properties = <Property>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-
-    properties.add(
-      Property(
-        id: '1',
-        name: 'Green View Apartment',
-        location: 'Westlands',
-        rent: 60000,
-        type: 'Apartment',
-        status: 'Available',
-      ),
-    );
-
-    properties.add(
-      Property(
-        id: '2',
-        name: 'Sunrise House',
-        location: 'Kilimani',
-        rent: 50000,
-        type: 'House',
-        status: 'Occupied',
-      ),
-    );
+  // Used later when properties are loaded from MySQL
+  void setProperties(List<Property> newProperties) {
+    properties.assignAll(newProperties);
   }
 
+  // Keep this because some existing screens may use it.
   void addProperty(Property property) {
     properties.add(property);
   }
 
+  // Required by edit_property_screen.dart
   void updateProperty(int index, Property property) {
-    properties[index] = property;
-    properties.refresh();
+    if (index >= 0 && index < properties.length) {
+      properties[index] = property;
+      properties.refresh();
+    }
   }
 
+  // Required by property details/list screens
   void deleteProperty(int index) {
-    properties.removeAt(index);
+    if (index >= 0 && index < properties.length) {
+      properties.removeAt(index);
+    }
+  }
+
+  void clearProperties() {
+    properties.clear();
   }
 }
