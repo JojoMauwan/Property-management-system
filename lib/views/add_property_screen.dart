@@ -334,7 +334,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                 const SizedBox(height: 15),
 
                 DropdownButtonFormField<String>(
-                  value: selectedType,
+                  initialValue: selectedType,
 
                   decoration: const InputDecoration(
                     labelText: 'Property type',
@@ -367,7 +367,7 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
                 const SizedBox(height: 15),
 
                 DropdownButtonFormField<String>(
-                  value: selectedStatus,
+                  initialValue: selectedStatus,
 
                   decoration: const InputDecoration(
                     labelText: 'Property status',

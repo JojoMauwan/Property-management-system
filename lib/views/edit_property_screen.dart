@@ -395,7 +395,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
               |--------------------------------------------------------------------------
               */
               DropdownButtonFormField<String>(
-                value: selectedType,
+                initialValue: selectedType,
 
                 decoration: const InputDecoration(
                   labelText: 'Property type',
@@ -433,7 +433,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
               |--------------------------------------------------------------------------
               */
               DropdownButtonFormField<String>(
-                value: selectedStatus,
+                initialValue: selectedStatus,
 
                 decoration: const InputDecoration(
                   labelText: 'Property status',

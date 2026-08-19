@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../configs/colors.dart';
+//import '../configs/colors.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -133,7 +133,6 @@ class _RegistrationState extends State<Registration> {
 
         await Future.delayed(const Duration(milliseconds: 700));
 
-        // After successful DB insert, go to login
         Get.offAllNamed('/login');
       } else {
         Get.snackbar(
@@ -171,6 +170,40 @@ class _RegistrationState extends State<Registration> {
     }
   }
 
+  InputDecoration fieldDecoration({
+    required String label,
+    required IconData icon,
+    String? hint,
+    Widget? suffixIcon,
+  }) {
+    return InputDecoration(
+      labelText: label,
+      hintText: hint,
+      prefixIcon: Icon(icon, color: const Color.fromARGB(255, 224, 92, 10)),
+      suffixIcon: suffixIcon,
+      filled: true,
+      fillColor: Colors.white.withValues(alpha: 0.88),
+      labelStyle: const TextStyle(color: Colors.black87),
+      hintStyle: TextStyle(color: Colors.grey.shade600),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.4)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(
+          color: Color.fromARGB(255, 224, 92, 10),
+          width: 2,
+        ),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+    );
+  }
+
   @override
   void dispose() {
     firstnameController.dispose();
@@ -185,174 +218,260 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         title: const Text('Register'),
         backgroundColor: const Color.fromARGB(255, 224, 92, 10),
         foregroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              const Icon(
-                Icons.apartment,
-                size: 80,
-                color: Color.fromRGBO(224, 92, 10, 1),
-              ),
 
-              const SizedBox(height: 20),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
 
-              const Text(
-                'Property Management System',
-                style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-              ),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/property_background.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
 
-              const SizedBox(height: 25),
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
 
-              TextFormField(
-                controller: firstnameController,
-                decoration: const InputDecoration(
-                  labelText: 'First name',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person),
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Enter your first name';
-                  }
-                  return null;
-                },
-              ),
+          // Dark overlay so fields/text are easy to see.
+          color: Colors.black.withValues(alpha: 0.35),
 
-              const SizedBox(height: 15),
+          child: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
 
-              TextFormField(
-                controller: lastnameController,
-                decoration: const InputDecoration(
-                  labelText: 'Last name',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person_outline),
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Enter your last name';
-                  }
-                  return null;
-                },
-              ),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 750),
 
-              const SizedBox(height: 15),
+                  child: Form(
+                    key: formKey,
 
-              TextFormField(
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'Email address',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.email),
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Enter your email';
-                  }
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
 
-                  if (!GetUtils.isEmail(value.trim())) {
-                    return 'Enter a valid email address';
-                  }
+                        const Icon(
+                          Icons.apartment,
+                          size: 85,
+                          color: Colors.white,
+                        ),
 
-                  return null;
-                },
-              ),
+                        const SizedBox(height: 12),
 
-              const SizedBox(height: 15),
+                        const Text(
+                          'Property Management System',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 10,
+                                color: Colors.black,
+                                offset: Offset(1, 2),
+                              ),
+                            ],
+                          ),
+                        ),
 
-              TextFormField(
-                controller: phoneController,
-                keyboardType: TextInputType.phone,
-                decoration: const InputDecoration(
-                  labelText: 'Phone number',
-                  hintText: '0712345678',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.phone),
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Enter your phone number';
-                  }
+                        const SizedBox(height: 8),
 
-                  if (value.trim().length < 10) {
-                    return 'Enter a valid phone number';
-                  }
+                        const Text(
+                          'Create your account to manage properties easily',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(blurRadius: 8, color: Colors.black),
+                            ],
+                          ),
+                        ),
 
-                  return null;
-                },
-              ),
+                        const SizedBox(height: 30),
 
-              const SizedBox(height: 15),
+                        TextFormField(
+                          controller: firstnameController,
+                          decoration: fieldDecoration(
+                            label: 'First name',
+                            icon: Icons.person,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Enter your first name';
+                            }
 
-              TextFormField(
-                controller: passwordController,
-                obscureText: !showPassword,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: const OutlineInputBorder(),
-                  prefixIcon: const Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                    icon: Icon(
-                      showPassword ? Icons.visibility_off : Icons.visibility,
+                            return null;
+                          },
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        TextFormField(
+                          controller: lastnameController,
+                          decoration: fieldDecoration(
+                            label: 'Last name',
+                            icon: Icons.person_outline,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Enter your last name';
+                            }
+
+                            return null;
+                          },
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        TextFormField(
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: fieldDecoration(
+                            label: 'Email address',
+                            icon: Icons.email,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Enter your email';
+                            }
+
+                            if (!GetUtils.isEmail(value.trim())) {
+                              return 'Enter a valid email address';
+                            }
+
+                            return null;
+                          },
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        TextFormField(
+                          controller: phoneController,
+                          keyboardType: TextInputType.phone,
+                          decoration: fieldDecoration(
+                            label: 'Phone number',
+                            hint: '0712345678',
+                            icon: Icons.phone,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Enter your phone number';
+                            }
+
+                            if (value.trim().length < 10) {
+                              return 'Enter a valid phone number';
+                            }
+
+                            return null;
+                          },
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        TextFormField(
+                          controller: passwordController,
+                          obscureText: !showPassword,
+                          decoration: fieldDecoration(
+                            label: 'Password',
+                            icon: Icons.lock,
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  showPassword = !showPassword;
+                                });
+                              },
+                              icon: Icon(
+                                showPassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.length < 4) {
+                              return 'Password should have at least 4 characters';
+                            }
+
+                            return null;
+                          },
+                        ),
+
+                        const SizedBox(height: 25),
+
+                        SizedBox(
+                          width: double.infinity,
+                          height: 52,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromARGB(
+                                255,
+                                224,
+                                92,
+                                10,
+                              ),
+                              foregroundColor: Colors.white,
+                              elevation: 6,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                            ),
+                            onPressed: isLoading ? null : registerUser,
+                            child: isLoading
+                                ? const SizedBox(
+                                    height: 22,
+                                    width: 22,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Register',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 18),
+
+                        TextButton(
+                          onPressed: () {
+                            Get.offAllNamed('/login');
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                          ),
+                          child: const Text(
+                            'Already registered? Login',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(blurRadius: 8, color: Colors.black),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+                      ],
                     ),
                   ),
                 ),
-                validator: (value) {
-                  if (value == null || value.length < 4) {
-                    return 'Password should have at least 4 characters';
-                  }
-
-                  return null;
-                },
               ),
-
-              const SizedBox(height: 25),
-
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 224, 92, 10),
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: isLoading ? null : registerUser,
-                  child: isLoading
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const Text('Register'),
-                ),
-              ),
-
-              const SizedBox(height: 15),
-
-              TextButton(
-                onPressed: () {
-                  Get.offAllNamed('/login');
-                },
-                child: const Text('Already registered? Login'),
-              ),
-            ],
+            ),
           ),
         ),
       ),
